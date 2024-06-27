@@ -22,7 +22,7 @@ def getFinanceData(file):
     match_date_time = pdf.pq('LTTextBoxHorizontal:contains("Data: ")').text()
 
     # get attendance
-    tmpFile = 'tmp/tmp.xml'
+    tmpFile = 'tmp.xml'
     pdf.tree.write(tmpFile, pretty_print = True)
     totals = pdf.pq('LTTextBoxHorizontal:contains("TOTAIS ")')[0].layout
     totals_p1 = round(totals.bbox[1], 3)
@@ -35,6 +35,7 @@ def getFinanceData(file):
             attendance = attendance[-1]
         
     match_date, match_time, home_team, away_team = transformMatchDataTime(match_date_time)
+    os.remove(tmpFile)
     return match_date, match_time, home_team, away_team, attendance
 
 def getScoresheetData(file):
